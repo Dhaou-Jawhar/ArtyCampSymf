@@ -1,0 +1,23 @@
+{% extends 'baseBack.html.twig' %}
+{% block body %}
+<table class="table table-sm table-dark" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+    <tr>
+        <th>artID</th>
+        <th>art_nom</th>
+        <th>art_description</th>
+        <th>reference</th>
+    </tr>
+    {% for i in list1 %}
+        <tr>
+            <td>{{i.artID}}</td>
+            <td>{{i.artnom}}</td>
+            <td>{{i.artdescription}}</td>
+            <td>{{i.reference}}</td>
+            <td><a href="{{path('update',{'artID':i.artID})}}"><button>Modifier</button></a></td>
+            <td><a href="{{path('supp_article',{'artID':i.artID})}}"><button>Supprime</button></a></td>
+        </tr>
+
+    {% endfor %}
+
+</table>
+{% endblock %}

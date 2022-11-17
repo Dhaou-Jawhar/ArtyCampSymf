@@ -1,0 +1,25 @@
+{% extends 'baseUpdate.html.twig' %}
+
+{% block body %}
+{{ form_start(f,{'attr': {'novalidate': 'novalidate'}}) }}
+
+<table class="table table-sm table-dark">
+    <tr>
+        <td> {{ form_label(f.artnom,"Nom") }} </td>
+        <td> {{ form_widget(f.artnom) }} </td>
+        <td> {{ form_errors(f.artnom) }} </td>
+    </tr>
+    <tr>
+        <td> {{ form_label(f.artdescription,"Description") }} </td>
+        <td> {{ form_widget(f.artdescription) }} </td>
+        <td> {{ form_errors(f.artdescription) }} </td>
+    </tr>
+    <tr>
+        <td> {{ form_label(f.reference,"Reference") }} </td>
+        <td> {{ form_widget(f.reference) }} </td>
+        <td> {{ form_errors(f.reference) }} </td>
+    </tr>
+</table>
+
+{{ form_end(f) }}
+{% endblock %}
