@@ -132,7 +132,7 @@
         ]
     },
     "symfony/maker-bundle": {
-        "version": "1.47",
+        "version": "1.48",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -278,6 +278,9 @@
         "files": [
             "./config/packages/messenger.yaml"
         ]
+    },
+    "theofidry/psysh-bundle": {
+        "version": "4.5.0"
     },
     "twig/extra-bundle": {
         "version": "v3.4.0"
