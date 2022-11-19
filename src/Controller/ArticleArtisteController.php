@@ -13,6 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use Symfony\Component\Mime\Email;
+use PHPMailer\PHPMailer\SMTP;
+use Symfony\Component\Mailer\MailerInterface;
 
 class ArticleArtisteController extends AbstractController
 {
@@ -44,6 +49,36 @@ class ArticleArtisteController extends AbstractController
             $article = $form->getData();
             $em->persist($article);
             $em->flush();
+            $mail = new PHPMailer(true);
+
+            $mail->isSMTP();// Set mailer to use SMTP
+            $mail->CharSet = "utf-8";// set charset to utf8
+            $mail->SMTPAuth = true;// Enable SMTP authentication
+            $mail->SMTPSecure = 'tls';// Enable TLS encryption, `ssl` also accepted
+
+            $mail->Host = 'smtp.gmail.com';// Specify main and backup SMTP servers
+            $mail->Port = 587;// TCP port to connect to
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
+            $mail->isHTML(true);// Set email format to HTML
+
+            $mail->Username = 'hazem.kharroubi@esprit.tn';// SMTP username
+            $mail->Password = 'Messi@1925';// SMTP password
+
+            $mail->setFrom('hazem.kharroubi@esprit.tn', 'Hazem Kharroubi');//Your application NAME and EMAIL
+            $mail->Subject = 'Article bien créer';//Message subject
+           // $mail->MsgHTML('bien créer');// Message body
+            $mail->Body = '<h1>Article: ' . $request->request->get('nomA'). ' ajoutée avec succés </h1>';
+
+            $mail->addAddress('hazem.kharroubi@esprit.tn', 'Hazem Kharroubi');// Target email
+
+
+            $mail->send();
 
             return $this->redirectToRoute('app_home');
         }
