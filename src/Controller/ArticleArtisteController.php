@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ArticleArtiste;
+use App\Form\ArticleType;
 use App\Repository\ArticleArtisteRepository;
 
 use Doctrine\ORM\EntityManager;
@@ -34,51 +35,20 @@ class ArticleArtisteController extends AbstractController
         return $this->render('pages/show.html.twig', compact('article'));
     }
 
+
+    // On utilise les méthodes http(GET|POST) dans la méthode create, GET:pour afficher le formulaire
+    //POST:pour traitter la formulaire
     #[Route('/articles/create', name: 'app_articles_create', methods: 'GET|POST')]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
-        $form = $this->createFormBuilder(new ArticleArtiste)
-            ->add('nomA', TextType::class)
-            ->add('descriptionA', TextareaType::class)
-            // ->add('views',TextareaType::class)
-            ->add('imageh', TextareaType::class)
-            ->getForm();
+        $article= new ArticleArtiste;
+        $form = $this->createForm(ArticleType::class,$article);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $article = $form->getData();
             $em->persist($article);
             $em->flush();
-            $mail = new PHPMailer(true);
-
-            $mail->isSMTP();// Set mailer to use SMTP
-            $mail->CharSet = "utf-8";// set charset to utf8
-            $mail->SMTPAuth = true;// Enable SMTP authentication
-            $mail->SMTPSecure = 'tls';// Enable TLS encryption, `ssl` also accepted
-
-            $mail->Host = 'smtp.gmail.com';// Specify main and backup SMTP servers
-            $mail->Port = 587;// TCP port to connect to
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
-            $mail->isHTML(true);// Set email format to HTML
-
-            $mail->Username = 'hazem.kharroubi@esprit.tn';// SMTP username
-            $mail->Password = 'Messi@1925';// SMTP password
-
-            $mail->setFrom('hazem.kharroubi@esprit.tn', 'Hazem Kharroubi');//Your application NAME and EMAIL
-            $mail->Subject = 'Article bien créer';//Message subject
-           // $mail->MsgHTML('bien créer');// Message body
-            $mail->Body = '<h1>Article: ' . $request->request->get('nomA'). ' ajoutée avec succés </h1>';
-
-            $mail->addAddress('hazem.kharroubi@esprit.tn', 'Hazem Kharroubi');// Target email
-
-
-            $mail->send();
+            $this->addFlash('success','Article créé avec succès!');
 
             return $this->redirectToRoute('app_home');
         }
@@ -87,27 +57,37 @@ class ArticleArtisteController extends AbstractController
     }
 
 
-    #[Route('/articles/{idArticle<[0-9]+>}/modifier', name: 'app_articles_modif', methods: 'GET|POST')]
+    #[Route('/articles/{idArticle<[0-9]+>}/modifier', name: 'app_articles_modif',methods: 'GET|POST')]
     public function modifier(Request $request, EntityManagerInterface $em, ArticleArtiste $article): Response
     {
-        $form = $this->createFormBuilder($article)
-            ->add('nomA', TextType::class)
-            ->add('descriptionA', TextareaType::class)
-            //->add('views',TextareaType::class)
-            ->add('imageh', TextareaType::class)
-            ->getForm();
-
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $article = $form->getData();
+
             $em->flush();
+            $this->addFlash('success','Article modifié avec succès!');
+
             return $this->redirectToRoute('app_home');
 
         }
 
         return $this->render('pages/modifier.html.twig', [
             'article' => $article,
-            'form' => $form->createView()]);
+            'form' => $form->createView()
+        ]);
     }
+
+    #[Route('/articles/{idArticle<[0-9]+>}', name: 'app_articles_supp', methods: 'POST|DELETE')]
+    public function supprimer(Request $request, EntityManagerInterface $em, ArticleArtiste $article): Response
+    {
+        if ($this->isCsrfTokenValid('article_suppression_'. $article->getIdArticle(), $request->request->get('csrf_token'))) {
+            $em->remove($article);
+            $em->flush();
+            $this->addFlash('info','Article supprimé avec succès!');
+
+        }
+        return $this->redirectToRoute('app_home');
+    }
+
 }

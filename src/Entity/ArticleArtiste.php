@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\HasLifecycleCallbacks] //écouter les différent évènement de cycle de vie de cette entitée
 #[ORM\Table(name: "ArticleArtiste")]
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ArticleArtisteRepository::class)]
 class ArticleArtiste
 {
@@ -22,12 +25,14 @@ class ArticleArtiste
     #[ORM\Column]
     private ?int $idArticle = null;
 
-    #[Assert\NotBlank(message:'Name is required')]
+    #[Assert\NotBlank(message: 'Ce champ est obligatoire')]
+    #[Assert\Length(min: 3,minMessage: 'Ce champ doit contenir 3 caractères au minimum')]
     #[ORM\Column(length: 255)]
     private ?string $nomA = null;
 
-    #[Assert\NotBlank(message:'Description is required')]
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Ce champ est obligatoire')]
+    #[Assert\Length(min: 10,minMessage:'Ce champ doit contenir 10 caractères au minimum' )]
+    #[ORM\Column(type: "text",length: 255)]
     private ?string $descriptionA = null;
 
 
@@ -35,14 +40,19 @@ class ArticleArtiste
     #[ORM\Column( options: ["default" => 0])]
     private int $views ;
 
-    #[ORM\Column(length: 255)]
-    private string $imageh ;
+
 
     #[ORM\Column(options:["default"=>"CURRENT_TIMESTAMP"] )]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(options:["default"=>"CURRENT_TIMESTAMP"] )]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[Vich\UploadableField(mapping: 'article_image', fileNameProperty: 'imageH')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageH = null;
 
 
 
@@ -63,7 +73,7 @@ class ArticleArtiste
         return $this->descriptionA;
     }
 
-    public function setDescriptionA(string $descriptionA): self
+    public function setDescriptionA(?string $descriptionA): self
     {
         $this->descriptionA = $descriptionA;
 
@@ -75,7 +85,7 @@ class ArticleArtiste
         return $this->nomA;
     }
 
-    public function setNomA(string $nomA): self
+    public function setNomA(?string $nomA): self
     {
         $this->nomA = $nomA;
 
@@ -90,20 +100,37 @@ class ArticleArtiste
     public function setViews(int $views): self
     {
         $this->views = $views;
-
         return $this;
     }
 
-    public function getImageh(): ?string
+    public function getImageH(): ?string
     {
-        return $this->imageh;
+        return $this->imageH;
     }
 
-    public function setImageh(string $imageh): self
+    public function setImageH(?string $imageH): self
     {
-        $this->imageh = $imageh;
+        $this->imageH = $imageH;
 
         return $this;
+    }
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->setUpdatedAt(new \DateTimeImmutable);
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
     }
     public function getCreatedAt(): ?\DateTimeImmutable
     {

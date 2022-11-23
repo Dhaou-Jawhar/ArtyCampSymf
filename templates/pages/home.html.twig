@@ -1,4 +1,4 @@
-{% extends 'baseFront.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 {% block body %}
 <h1>Hello Tunisia</h1>
 <p>It's currently {{ 'now'|date('h:i A','Africa/Tunis') }}</p>
@@ -8,16 +8,13 @@
 <body>
 {% for i in arts %}
     <Article>
-        <h2>Article {{i.idArticle  }}</h2>
         <h2><a href="{{ path('app_articles_show',{idArticle: i.idArticle}) }}">{{ i.nomA }}</a></h2>
-        <p>{{ i.descriptionA}}</p>
+        <p>{{ i.descriptionA|u.truncate(50)}}</p>
+        <p>Soumis {{ i.createdAt|ago }}</p>  
 
     </Article>
 {% endfor %}
 </body>
 
-
-<footer><p>&copy;Copyright {{ 'now'|date('Y','Africa/Tunis') }}</p>
-</footer>
-
 {% endblock %}
+

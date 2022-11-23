@@ -1,10 +1,11 @@
-{% extends 'baseFront.html.twig' %}
-
+{% extends 'layouts/base.html.twig' %}
+{% block title 'Créer un Article ' %}
 {% block body %}
-<h1>Création Articles</h1>
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<input type="submit" value="Create Article" formnovalidate>
-{{ form_end(form) }}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h1>Création Article</h1>
+        {{ include('pages/_form.html.twig') }}
+    </div>
+</div>
 
 {% endblock %}

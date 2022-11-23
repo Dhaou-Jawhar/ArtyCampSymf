@@ -1,10 +1,10 @@
-{% extends 'baseFront.html.twig' %}
-{% block title 'Modifier Article # '~ article.idArticle %}
+{% extends 'layouts/base.html.twig' %}
+{% block title 'Modifier Article '~ article.idArticle %}
 {% block body %}
-    <h1>Modifier Article {{ article.idArticle }}</h1>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="Modifier Article" formnovalidate>
-    {{ form_end(form) }}
-
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+             <h1>Modifier Article {{ article.idArticle }}</h1>
+            {{ include('pages/_form.html.twig',{submitButtonText:'Modifier Article '} ) }}
+        </div>
+    </div>
 {% endblock %}

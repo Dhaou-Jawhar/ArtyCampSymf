@@ -2,10 +2,30 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <<title>{% block title %}ArtyCamp Events{% endblock %}</title>
+    {% block stylesheets %}
+        <style>
+            .alert{
+                padding: 10px;
+                color: white;
+                text-align: center;
+            }
+            .alert-success{
+                background-color: green;
+            }
+            .alert-error{
+                background-color: red;
+            }
+            .alert-info{
+                background-color: blue;
+            }
+        </style>
+    {% endblock %}
+
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -35,12 +55,17 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+
 </head>
+{% block head %} {% endblock %}
 
 <body>
 
+
+
 <!-- ======= Header ======= -->
 <header id="header" class="header d-flex align-items-center fixed-top">
+
     <div class="container-fluid d-flex align-items-center justify-content-between">
 
         <a href="index.html" class="logo d-flex align-items-center  me-auto me-lg-0">
@@ -67,7 +92,7 @@
             <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
             <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
         </div>
         <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
         <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
@@ -89,22 +114,12 @@
     </div>
 </section><!-- End Hero Section -->
 {% endblock %}
-{% block body %}
 
-       <!--for the group//likom ya jme3a ekhdmou biha fl template twig mteekom w baad extendiw-->
 
-{% endblock %}
 
-</main><!-- End #main -->
+<main></main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="container">
-        <div class="copyright">
-            &copy; Copyright <strong><span>ArtyCamp</span></strong>. All Rights Reserved
-        </div>
-    </div>
-</footer><!-- End Footer -->
+
 
 <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -122,6 +137,14 @@
 <!-- Template Main JS File -->
 <script src="{{asset('assets/js/main.js')}}"></script>
 
+{% block body %}{% endblock %}
 </body>
-
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>ArtyCamp</span></strong>. All Rights Reserved
+        </div>
+    </div>
+</footer><!-- End Footer -->
 </html>

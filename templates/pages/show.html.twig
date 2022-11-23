@@ -1,10 +1,15 @@
-{% extends 'baseFront.html.twig' %}
-
+{% extends 'layouts/base.html.twig' %}
 {% block body %}
 <article>
     <h1>{{ article.nomA }}</h1>
     <p>{{ article.descriptionA }}</p>
 </article>
-    <a href=" {{ path('app_articles_modif',{idArticle: article.idArticle}) }} ">Modifier</a>
-    <a href="{{ path('app_home') }}">Retour</a>
+    <a href=" {{ path('app_articles_modif',{idArticle: article.idArticle}) }} ">Modifier</a> |
+
+    <a href="#" onclick="event.preventDefault();confirm('Êtes-vous sûr de vouloir supprimer?')&& document.getElementById('js-article-supprimer-form').submit();">Supprimer</a> |
+
+    <form id="js-article-supprimer-form" action="{{ path('app_articles_supp',{idArticle: article.idArticle}) }}" method="post" style="display: none;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token('article_suppression_'~ article.idArticle) }}">
+        <input type="hidden" name="_method" value="DELETE">
+    </form>
 {% endblock %}
