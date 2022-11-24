@@ -25,3 +25,7 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> costom env vars ###
+/public/uploads/
+###> end costom env vars ###

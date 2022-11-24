@@ -48,6 +48,7 @@ class ArticleArtiste
     #[ORM\Column(options:["default"=>"CURRENT_TIMESTAMP"] )]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[Assert\Image(maxSize: "8M")]
     #[Vich\UploadableField(mapping: 'article_image', fileNameProperty: 'imageH')]
     private ?File $imageFile = null;
 
