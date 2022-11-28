@@ -29,3 +29,7 @@ yarn-error.log
 ###> costom env vars ###
 /public/uploads/
 ###> end costom env vars ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
