@@ -22,7 +22,7 @@ class ArticleArtiste
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "id_article")]
     private ?int $idArticle = null;
 
     #[Assert\NotBlank(message: 'Ce champ est obligatoire')]

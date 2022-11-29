@@ -24,6 +24,7 @@ class ArticleType extends AbstractType
                      'required' => false,
                  'allow_delete' => false,
                  'download_uri' => false,
+                     'imagine_pattern'=>'squared_thumbnail_small'
              ]);
 
     }

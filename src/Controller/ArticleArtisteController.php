@@ -55,6 +55,21 @@ class ArticleArtisteController extends AbstractController
 
         return $this->render('pages/create.html.twig', ['form' => $form->createView()]);
     }
+    /**
+     * @route("/recherche",name="recherche" ,methods={"GET","POST"})
+     *
+     *
+     */
+    public function recherche(Request $req, EntityManagerInterface $entityManager)
+    {
+        $data = $req->get('searche');
+        $repository = $entityManager->getRepository(ArticleArtiste::class);
+        $Produitpm = $repository->findBy(['nomA' => $data]);
+
+        return $this->render('pages/home.html.twig', [
+            'arts' => $Produitpm
+        ]);
+    }
 
 
     #[Route('/articles/{idArticle<[0-9]+>}/modifier', name: 'app_articles_modif',methods: 'GET|POST')]
