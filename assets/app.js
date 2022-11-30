@@ -5,15 +5,19 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
-// any CSS you import will output into a single css file (app.css in this case)
+// any CSS you import will output into a single css file (app.scss in this case)
 import './styles/app.css';
 
 // start the Stimulus application
 import $ from 'jquery';
 import './bootstrap';
 
+
 $('.custom-file-input').on('change',function(e) {
     var inputFile= e.currentTarget;
     $(inputFile).parent().find('.custom-file-label').html(inputFile.file[0].name);
 
-})
+});
+
+
+

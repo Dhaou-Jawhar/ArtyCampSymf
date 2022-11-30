@@ -1,22 +1,34 @@
 {% extends 'layouts/base.html.twig' %}
 {% block body %}
-<h1>Hello Tunisia</h1>
+    {% if arts|length >0 %}
+<h1>Tunise  &hearts;</h1>
 <p>It's currently {{ 'now'|date('h:i A','Africa/Tunis') }}</p>
 
-<h1>{{ pluralize(arts|length,'Article')}} </h1>
+<h1 class="mt-4 text-center text-muted">{{ pluralize(arts|length,'Article')}} </h1>
 
 <body >
+        {% for row in arts|batch(3) %}
 
+            <div class="row mb-5">
 
-{% for i in arts %}
+                {% for i in row %}
+                    <div class="col-md-4">
+                        <Article class="article bg-white rounded shadow" >
+                            <a href="{{ path('app_articles_show',{idArticle: i.idArticle}) }}">
+                                <img src="{{ (i.imageH ? vich_uploader_asset(i) :asset('images/download.jpg')) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ i.nomA }}" class="w-100 rounded-top"/>
+                            </a>
 
-    <Article>
-        <h2><a href="{{ path('app_articles_show',{idArticle: i.idArticle}) }}">{{ i.nomA }}</a></h2>
-        <p>{{ i.descriptionA|u.truncate(50)}}</p>
-        <p>Soumis {{ i.createdAt|ago }}</p>  
+                            <h2 class="h5 pl-3 pt-3"><a href="{{ path('app_articles_show',{idArticle: i.idArticle}) }}" class="text-secondary text-decoration-none">{{ i.nomA }}</a></h2>
 
-    </Article>
-{% endfor %}
+                            <p class="pl-3 pb-3 text-muted"> <small>Soumis {{ i.createdAt|ago }}</small></p>
+                        </Article>
+                    </div>
+                {% endfor %}
+             </div>
+        {% endfor %}
+        {% else %}
+<p class=" mt-5 h1  text-center">Pas encore d'articles. <a href="{{ path('app_articles_create') }}" >Soyez le premier!</a></p>
+{% endif %}
 </body>
 
 {% endblock %}

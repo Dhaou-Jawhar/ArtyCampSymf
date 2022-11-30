@@ -53,8 +53,13 @@ class ArticleArtiste
     #[Vich\UploadableField(mapping: 'article_image', fileNameProperty: 'imageH')]
     private ?File $imageFile = null;
 
+
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageH = null;
+
+
+
 
 
 
@@ -81,6 +86,7 @@ class ArticleArtiste
 
         return $this;
     }
+
 
     public function getNomA(): ?string
     {
