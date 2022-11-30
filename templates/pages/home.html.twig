@@ -5,8 +5,11 @@
 
 <h1>{{ pluralize(arts|length,'Article')}} </h1>
 
-<body>
+<body >
+
+
 {% for i in arts %}
+
     <Article>
         <h2><a href="{{ path('app_articles_show',{idArticle: i.idArticle}) }}">{{ i.nomA }}</a></h2>
         <p>{{ i.descriptionA|u.truncate(50)}}</p>

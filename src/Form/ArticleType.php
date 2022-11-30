@@ -22,7 +22,7 @@ class ArticleType extends AbstractType
                  ->add('imageFile', VichImageType::class, [
                     'label'=>'Image (JPG or PNG fichier)',
                      'required' => false,
-                 'allow_delete' => false,
+                     'allow_delete' => false,
                  'download_uri' => false,
                      'imagine_pattern'=>'squared_thumbnail_small'
              ]);
